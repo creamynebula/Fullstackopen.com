@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+//COURSEINFO part 1
 
 const App = () => { //root of the app
 

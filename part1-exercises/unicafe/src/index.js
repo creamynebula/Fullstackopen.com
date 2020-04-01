@@ -51,7 +51,7 @@ const App = () => {
       </div>
     )
   }
-
+  
   else { //if no votes render text saying no feedback
     return (
       <div>

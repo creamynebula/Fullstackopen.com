@@ -1,0 +1,7 @@
+hooks: execute effect after rendering
+
+how to search (filter): if something is typed at search input field, rather than returning full array of elements in DB, return only elements containing what was typed.
+array.filter(x=> x.name.toLowerCase().includes(query.toLowerCase()))
+
+how to process forms, including checking if element to be added is already in
+onChange=() on input field and onSubmit=() on form tag

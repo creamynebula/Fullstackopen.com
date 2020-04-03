@@ -1,0 +1,8 @@
+me parece que é melhor ter qualquer funcao e operacao fora do JSX (fora do return (<div> </div>), dentro da função que contém o JSX.
+
+Defina componentes reutilizáveis e mande o que eles precisam como  props. <UmCertoComponente data={var1} func={func1} />
+const UmCertoComponente = (props.) => {}
+
+const t = [1,2,3,4,5]
+const [first,second,...rest]=t
+console.log(first,second,rest) //1 2 [3,4,5]

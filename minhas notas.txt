@@ -6,3 +6,12 @@ const UmCertoComponente = (props.) => {}
 const t = [1,2,3,4,5]
 const [first,second,...rest]=t
 console.log(first,second,rest) //1 2 [3,4,5]
+
+
+const [notes, setNotes] = useState(props.notes)
+const [newNote, setNewNote] = useState('new note')
+const handleNoteChange = (event) => {
+    console.log(event.target.value)
+    setNewNote(event.target.value)
+}
+<input value={newNote} onChange={handleNoteChange} />

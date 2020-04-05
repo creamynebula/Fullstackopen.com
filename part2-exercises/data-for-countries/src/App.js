@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 const shortid = require('shortid');
 
-function isEmpty(obj) {
+
+function isEmpty(obj) { //returns whether object is empty
   for (var key in obj) {
     if (obj.hasOwnProperty(key))
       return false;
@@ -10,57 +11,30 @@ function isEmpty(obj) {
   return true;
 }
 
-const searchResult = (query, countries) => {
-  return countries.filter(x => x.name.toLowerCase().includes(query.toLowerCase()))
-} //returns array containing the countries that contain searched string (case insensitive)
+const App = () => {
 
-const fullCountryInfo = (country) => {
-
-  return (
-    <div key={shortid.generate()}>
-      <h1 key={shortid.generate()} >{country.name}</h1>
-      <p key={shortid.generate()}>Capital: {country.capital}</p>
-      <p key={shortid.generate()}>Population: {country.population}</p>
-      <h2 key={shortid.generate()}>Languages:</h2>
-      <ul key={shortid.generate()}>
-        {country.languages.map(lang => <li key={shortid.generate()}>{lang.name}</li>)}
-      </ul>
-      <img src={country.flag} alt={country.name + ' flag'} width='35%' />
-    </div>
-  )
-
-}
-
-const countryName = (country) => {
-  return (
-    <div key={shortid.generate()}>{country.name}</div>
-  )
-}
-
-function App() {
 
   const [countries, setCountries] = useState([]); //this array will hold the countries that we will fetch from API
-  const [searchQuery, setSearchQuery] = useState(''); //controls de search query input
-  const [belowCountry, setBelowCountry] = useState({});
+  const [searchQuery, setSearchQuery] = useState(''); //controls the search query input
 
   const hook = () => {
     axios.get('https://restcountries.eu/rest/v2/all') //countries are here in JSON format
       .then(res => {
-        setCountries(res.data); //now countries are inside 'countries' state variable
+        setCountries(res.data); //now countries are inside 'countries' state variable (array)
       })
   };
-
   useEffect(hook, []); //empty array in second arg means execute effect only on first rendering
 
+
   const handleSearchInput = (event) => {
+    console.log('we are inside handleSearchInput');
     setSearchQuery(event.target.value); //now 'searchQuery' contains what is currently written in input
-    setBelowCountry({});
   }
 
-  const handleShowInfo = (country) => {
-    if (isEmpty(belowCountry)) setBelowCountry(country);
-    else setBelowCountry({});
+  const searchResult = (query, countries) => { //returns array of countries that correspond to query
+    return countries.filter(x => x.name.toLowerCase().includes(query.toLowerCase()))
   }
+
 
   return (
     <div className="App">
@@ -69,49 +43,86 @@ function App() {
         <input value={searchQuery} onChange={handleSearchInput} />
       </div>
       <div>
-        <CountriesToShow countries={countries} searchQuery={searchQuery} handleShowInfo={handleShowInfo} />
-        <BelowCountryComp country={belowCountry} func={fullCountryInfo} />
+        <CountriesToShow countries={countries} searchQuery={searchQuery} searchResult={searchResult} setSearchQuery={setSearchQuery} />
       </div>
     </div>
   );
-}
+} //end of App component
+
 
 const CountriesToShow = (props) => {
-  const { countries, searchQuery, handleShowInfo, } = props;
+  const { countries, searchQuery, searchResult, setSearchQuery } = props;
 
-  if (searchQuery === '') return (countries.map(x => countryName(x))); //render all countries names
+  if (searchQuery === '')
+    return (countries.map(x => <div key={shortid.generate()}>{x.name}</div>)); //render all countries names
 
   else {
-    const possibleResult = searchResult(searchQuery, countries); //get countries matching query
 
-    if (possibleResult.length > 10) //if > 10 countries found
-      return (<div><p>Too many matches, please be less greedy with your searching!</p></div>)
+    const result = searchResult(searchQuery, countries); //get countries matching query
+    if (result.length > 10) //if > 10 countries found
+      return (<div><p>More than 10 matches, please be less greedy with your searching!</p></div>)
 
-    else if (possibleResult.length > 1 && possibleResult.length < 10) { //if (1,10) countries found
+    else if (result.length > 1 && result.length < 10) { //if (1,10) countries found
       return (
-        possibleResult.map(x =>
+        result.map(x =>
           <div key={shortid.generate()}>
-            {x.name} <button onClick={() => handleShowInfo(x)}>Show Info</button>
+            {x.name} <button onClick={() => setSearchQuery(x.name)}>Show Info</button>
           </div>) //render them
       );
-
     }
 
-    else if (possibleResult.length === 1) return ( //if 1 country found
-      possibleResult.map(x => fullCountryInfo(x))
-    )
+    else if (result.length === 1) { //if search result is 1 country
+      let x = result[0];
+      return (
+        <div>
+          <h1>{x.name}</h1>
+          <p>Capital: {x.capital}</p>
+          <p>Population: {x.population}</p>
+          <h2>Languages:</h2>
+          <ul>
+            {x.languages.map(lang => <li key={shortid.generate()}>{lang.name}</li>)}
+          </ul>
+          <img src={x.flag} alt={x.name + ' flag'} width='35%' />
+          <WeatherData country={x} />
+        </div>
+
+      )
+    }
 
     else return (<div><p>No matches ;_;</p></div>)
-  } //this block rendered search results
-} //fim countriesToShow()
 
-const BelowCountryComp = (props) => {
-  if (!isEmpty(props.country)) return (
-    <div>
-      {props.func(props.country)}
-    </div>
+  } //this block rendered search results
+
+} //end of CountriesToShow component
+
+
+const WeatherData = (props) => { //pulls weather data for the country and renders it
+
+  const { country } = props;
+  const [weatherData, setWeatherData] = useState({});
+
+  const api_key = process.env.REACT_APP_API_KEY
+
+  const pullWeatherData = () => {
+    console.log('we just got inside pullWeatherData func');
+    if (!isEmpty(country))
+      axios.get(`http://api.weatherstack.com/current?access_key=${api_key}&query=${country.capital}`)
+        .then(res => {
+          console.log('we made API call, the response:', res)
+          setWeatherData(res.data.current); //now we have weather data in 'weatherData' state var
+        })
+  }
+
+  useEffect(pullWeatherData, []);
+
+  return (
+    <>
+      <h2>Weather in {country.capital}:</h2>
+      <p>temperature: {weatherData.temperature}</p>
+      <p>humidity: {weatherData.humidity}</p>
+    </>
   )
-  else return <div></div>
-}
+} //end of WeatherData component
+
 
 export default App;

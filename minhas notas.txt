@@ -1,10 +1,11 @@
 me parece que é melhor ter qualquer funcao e operacao fora do JSX (fora do return (<div> </div>), dentro da função que contém o JSX.
 
 Defina componentes reutilizáveis e mande o que eles precisam como  props. <UmCertoComponente data={var1} func={func1} />
-const UmCertoComponente = (props.) => {}
+const UmCertoComponente = (props) => {
+const {var1, func1} = props
 
 const t = [1,2,3,4,5]
-const [first,second,...rest]=t
+const [first,second,...rest] = t
 console.log(first,second,rest) //1 2 [3,4,5]
 
 
@@ -15,3 +16,20 @@ const handleNoteChange = (event) => {
     setNewNote(event.target.value)
 }
 <input value={newNote} onChange={handleNoteChange} />
+
+
+const array1 = [5,12,8,130,44];
+const found = array1.find(x => x > 10); //12
+
+
+axios.get(url).then(res => setVar(res.data))
+
+const update = (id, newObject) => {
+return axios.put(`${baseUrl}/${id}`, newObject)
+  .then(res => res.data)
+
+//o put retorna a nota modificada, entao vc precisa
+update(id, changedNote)
+  .then(returnedNote => {
+    setNotes(notes.map(note => note.id !== id ? note : returnedNote))
+  })

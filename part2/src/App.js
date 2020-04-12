@@ -121,9 +121,7 @@ const Footer = () => {
   return (
     <div style={footerStyle}>
       <br />
-      <em>
-        Note app, Department of Computer Science, University of Helsinki 2020
-      </em>
+      <em>Note app, curso da Universidade de Helsinki, 2020</em>
     </div>
   );
 };

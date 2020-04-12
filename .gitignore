@@ -1,3 +1,5 @@
+# personal files like notes
+*.personal
 # Logs
 logs
 *.log

@@ -33,3 +33,24 @@ update(id, changedNote)
   .then(returnedNote => {
     setNotes(notes.map(note => note.id !== id ? note : returnedNote))
   })
+
+
+----deploy----
+((backend))
+npm install cors --save
+const cors = require('cors')
+app.use(cors())
+const PORT = process.env.PORT || 3001
+((add Procfile))
+web: node index.js
+heroku create nomeDaApp
+git add .
+git commit -am "deploying"
+git push heroku master
+((frontend))
+npm run build
+copie /build/ pra folder do backend
+((backend))
+app.use(express.static('build'))
+git add commit etc
+git push heroku master

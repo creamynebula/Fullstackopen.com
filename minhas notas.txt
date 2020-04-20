@@ -41,16 +41,50 @@ npm install cors --save
 const cors = require('cors')
 app.use(cors())
 const PORT = process.env.PORT || 3001
+const connectString = process.env.MONGODB_URI
 ((add Procfile))
 web: node index.js
+((terminal))
+heroku login
 heroku create nomeDaApp
+heroku config:set MONGODB_URI='mongodb+srv etcetc'
+git init
 git add .
 git commit -am "deploying"
 git push heroku master
+heroku logs --tail
+heroku open nomeDaApp
 ((frontend))
+mude o patch de fetch/axios etc para /api/resource ou o que for apropriado
 npm run build
 copie /build/ pra folder do backend
 ((backend))
 app.use(express.static('build'))
 git add commit etc
 git push heroku master
+-------------
+
+
+----express----
+require('dotenv').config()
+const express = require('express')
+const resourceRoute = require('./routes/resource')
+const app = express()
+app.use(express.json()) //req.body
+const requestLogger = (req, res, next) => {
+    //middleware que sempre é executado
+    console.log("Method:", req.method);
+    console.log("Path:  ", req.path);
+    console.log("Body:  ", req.body);
+    console.log("---");
+    next(); //passa o controle para o próximo middleware, todo middleware custom que não retorne uma resposta deve terminar com next();
+};
+app.use(requestLogger);
+app.use(resourceRoute)
+const unknownEndpoint = (req,res) => {
+  res.status(404).send({error: 'unknown endpoint!'});
+}
+app.use(unknownEndpoint)
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () => console.log(`Server listening on ${PORT}`))
+------------

@@ -150,4 +150,4 @@ console.log("mostBlogs:", mostBlogs(blogs));
 console.log("mostLikes:", mostLikes(blogs));
 console.log("mostLikes2:", mostLikes2(blogs));
 
-module.exports = { dummy, totalLikes, favoriteBlog, mostBlogs };
+module.exports = { dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes };

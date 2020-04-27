@@ -44,7 +44,6 @@ const mostBlogs = (blogs) => {
 
 const mostLikes = (blogs) => {
   //first we are gathering info in this format: {'author name': numberOfLikes, ... }
-  //
   let collection = blogs.reduce(
     (result, item) =>
       result.has(item.author) //if collection has author

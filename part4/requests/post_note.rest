@@ -1,7 +1,9 @@
-POST http://localhost:3001/api/notes/
+POST http://localhost:3001/api/notes
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhpLWltLXVzZXIiLCJpZCI6IjVlYTM3NWE0M2Y3ZTA0MzcxMDJmOTA0ZiIsImlhdCI6MTU4NzkzMTQ2M30.ncRJa_TnERNwvDlMthWo61VnlRpW1bRlq-WgA_p3rAg
 
 {
-    "content": "Gotta get back into Chihayafuru",
-    "important": true
+    "content": "user ID goes along with request",
+    "important": true,
+    "userId": "5ea375a43f7e0437102f904f"
 }

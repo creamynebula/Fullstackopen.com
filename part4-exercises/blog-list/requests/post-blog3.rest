@@ -1,0 +1,10 @@
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+"title": "Well I'm THE blog",
+"author": "Corredor X",
+"url": "www.nyaa.si",
+"likes": 10
+}

@@ -1,0 +1,6 @@
+code modularisation
+testing with superagent and jest
+setting different environments for testing, development and production
+mongoose validation
+async await instead of chaining promises
+token authentication (jwt)

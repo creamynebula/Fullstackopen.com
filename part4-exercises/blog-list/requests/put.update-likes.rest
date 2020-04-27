@@ -1,0 +1,9 @@
+PUT http://localhost:3003/api/blogs/5e9f0ad2a27f762e6cbc18ba
+Content-Type: application/json
+
+{
+    "title": "Well I'm THE blog",
+    "author": "Corredor X",
+    "url": "www.nyaa.si",
+    "likes": 10
+}

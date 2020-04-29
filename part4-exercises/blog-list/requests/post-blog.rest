@@ -1,10 +1,10 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF5YXNlY2hpaGF5YSIsImlkIjoiNWVhNzU3ODU4MWJkYjcxODUwMTY2N2JkIiwibmFtZSI6IkF5YXNlIENoaWhheWEiLCJpYXQiOjE1ODgxNzY0MDh9.lfjppWtS2kCMLnbQtnvnD3wQrBEqXKrEl9HwyR1p-wM
 
 {
-    "title": "Just Another Blog",
-    "author": "Blogster",
-    "url": "www.blog.kr",
-    "likes": 0
+    "title": "Chihaya really likes to blog",
+    "url": "www.chihayaisablogger.jp",
+    "likes": 14
 }
 

@@ -1,0 +1,6 @@
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRhdmlkbHluY2giLCJpZCI6IjVlYTc1ODE4ODFiZGI3MTg1MDE2NjdiZiIsIm5hbWUiOiJEYXZpZCBMeW5jaCIsImlhdCI6MTU4ODE5MzE1OH0.IKN19z3_ZWV3-lY-tl_7LoraMeIRIjKf6aKwySLHb4g",
+  "username": "davidlynch",
+  "name": "David Lynch",
+  "id": "5ea7581881bdb718501667bf"
+}

@@ -4,6 +4,8 @@ const loginRouter = require("express").Router();
 const User = require("../models/user");
 
 loginRouter.post("/", async (req, res) => {
+  console.log("body of request received by loginRouter:", req.body);
+  console.log("headers of request received by loginRouter:", req.headers);
   const body = req.body; //username and password
 
   const user = await User.findOne({ username: body.username });

@@ -5,6 +5,7 @@ const baseUrl = "/api/login";
 
 const login = async (credentials) => {
   const response = await axios.post(baseUrl, credentials);
+  //the credentials here are {username: , password: }
   //I guess syntax is (api url, payload) for any appropriate post request
   return response.data;
 };

@@ -18,6 +18,7 @@ const App = () => {
         "information we are going to put into user state variable:",
         user
       );
+      window.localStorage.setItem("user", JSON.stringify(user));
       setUser(user);
       setUsername("");
       setPassword(""); //clean the form since we already logged in
@@ -27,8 +28,21 @@ const App = () => {
     }
   };
 
+  const handleLogout = (event) => {
+    event.preventDefault();
+    window.localStorage.removeItem("user");
+    setUser(null);
+  };
+
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
+  }, []);
+
+  useEffect(() => {
+    const loggedUserString = window.localStorage.getItem("user");
+    if (loggedUserString) {
+      setUser(JSON.parse(loggedUserString));
+    }
   }, []);
 
   if (user === null)
@@ -60,7 +74,12 @@ const App = () => {
     return (
       <div>
         <h2>blogs</h2>
-        <div>{user.name} is logged in</div>
+        <div>
+          {user.name} is logged in.
+          <form onSubmit={handleLogout}>
+            <button type="submit">Logout</button>
+          </form>
+        </div>
         <br />
         {blogs.map((blog) => (
           <Blog key={blog.id} blog={blog} />

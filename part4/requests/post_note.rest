@@ -1,9 +1,8 @@
 POST http://localhost:3001/api/notes
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhpLWltLXVzZXIiLCJpZCI6IjVlYTM3NWE0M2Y3ZTA0MzcxMDJmOTA0ZiIsImlhdCI6MTU4NzkzMTQ2M30.ncRJa_TnERNwvDlMthWo61VnlRpW1bRlq-WgA_p3rAg
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF5YXNlY2hpaGF5YSIsImlkIjoiNWVhYjVkZTU0ZmUxMzEyOWIwOWM2MjRjIiwiaWF0IjoxNTg4MjkyODcxfQ.9WpFZVQXPaWVITxpPDL4WlYxCSBw6b7Fd3bvm_vJhkg
 
 {
-    "content": "user ID goes along with request",
-    "important": true,
-    "userId": "5ea375a43f7e0437102f904f"
+    "content": "This note was written by Chihaya 3",
+    "important": true
 }

@@ -1,0 +1,1 @@
+just run the backend you worked on in part4 alongside it, proxy is already set up in package.json

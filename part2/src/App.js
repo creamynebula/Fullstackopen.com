@@ -42,7 +42,7 @@ const App = () => {
       setNotes(notes.concat(returnedNote));
       setMessage(`Note created`);
       setTimeout(() => {
-        setMessage(null); //after 5s remove error msg
+        setMessage(null); //after 5s clear msg
       }, 5000);
       setNewNote("");
     });
@@ -53,23 +53,25 @@ const App = () => {
   };
 
   const toggleImportanceOf = (id) => {
-    const note = notes.find((n) => n.id === id); //this holds the value of the note we are looking for
+    const note = notes.find((x) => x.id === id); //this holds the value of the note we are looking for
     const changedNote = { ...note, important: !note.important }; //this flips its importance
+    let newNotesArray = notes.map((x) => (x.id !== id ? x : changedNote));
 
     update(id, changedNote) //update note on backend
       .then((returnedNote) => {
-        setNotes(notes.map((note) => (note.id !== id ? note : returnedNote)));
+        setNotes(newNotesArray);
         setMessage(`Note updated`);
         setTimeout(() => {
           setMessage(null);
         }, 5000);
       })
       .catch((error) => {
-        setMessage(`Note '${note.content}' was already removed from server`);
+        setMessage(`Note was already removed from server ;_;.\n${error}`);
         setTimeout(() => {
-          setMessage(null); //after 5s remove error msg
+          setMessage(null); //after 5s clear msg
         }, 5000);
-        setNotes(notes.filter((n) => n.id !== id)); //remove note from view since it's already removed
+        newNotesArray = notes.filter((x) => x.id !== id);
+        setNotes(newNotesArray); //remove note from view since it's already removed
       });
   };
 
@@ -79,7 +81,7 @@ const App = () => {
       <Notification message={message} />
       <div>
         <button onClick={() => setShowAll(!showAll)}>
-          Show {showAll ? "Only VERY Important Notes" : "All Notes"}
+          Show {showAll ? "Only VERY IMPORTANT Notes!!" : "All Notes."}
         </button>
       </div>
       <ul>
@@ -115,13 +117,13 @@ const Footer = () => {
   const footerStyle = {
     color: "rgb(29, 1, 107)",
     fontStyle: "italic",
-    fontSize: 18,
+    fontSize: 16,
   };
 
   return (
     <div style={footerStyle}>
       <br />
-      <em>Note app, curso da Universidade de Helsinki, 2020</em>
+      <em>Note App, curso da Universidade de Helsinki, 2020</em>
     </div>
   );
 };

@@ -4,13 +4,13 @@
       "id": 1,
       "content": "HTML is easy",
       "date": "2019-05-30T17:30:31.098Z",
-      "important": true
+      "important": false
     },
     {
       "id": 2,
       "content": "Browser can execute only Javascript",
       "date": "2019-05-30T18:39:34.091Z",
-      "important": false
+      "important": true
     },
     {
       "id": 3,
@@ -37,10 +37,22 @@
       "id": 6
     },
     {
-      "content": "A certain magical new note",
-      "date": "2020-04-08T16:40:29.779Z",
-      "important": false,
+      "content": "Another note",
+      "date": "2020-04-30T20:41:41.895Z",
+      "important": true,
       "id": 7
+    },
+    {
+      "content": "Yet another note",
+      "date": "2020-04-30T20:44:57.305Z",
+      "important": false,
+      "id": 8
+    },
+    {
+      "content": "Yet another note",
+      "date": "2020-04-30T20:44:57.486Z",
+      "important": false,
+      "id": 9
     }
   ]
 }

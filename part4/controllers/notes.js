@@ -39,7 +39,11 @@ notesRouter.post("/", async (request, response) => {
   const token = getTokenFrom(request);
   console.log("token:", token);
 
-  const decodedToken = jwt.verify(token, process.env.SECRET); //returns the object the token was based on
+  try {
+    const decodedToken = await jwt.verify(token, process.env.SECRET); //returns the object the token was based on
+  } catch (error) {
+    return response.status(401).json({ error: "your token isn't valid" });
+  }
 
   if (!token || !decodedToken.id) {
     return response.status(401).json({ error: "token missing or invalid" });

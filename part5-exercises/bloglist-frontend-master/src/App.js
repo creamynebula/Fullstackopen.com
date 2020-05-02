@@ -23,16 +23,10 @@ const App = () => {
       );
 
       window.localStorage.setItem("user", JSON.stringify(user));
-      /*
-      window.localStorage.setItem(
-        "tokenForRequests",
-        JSON.stringify(tokenForRequests)
-      );
-      */
       setUser(user);
+      setMessage(`You are now logged in ${user.username}`);
       setUsername("");
       setPassword(""); //clean the form since we already logged in
-      setMessage("You are logged in my dear");
       setTimeout(() => setMessage(""), 5000); //after 5s clear login message
     } catch (exception) {
       setMessage("Bad credentials youngster");
@@ -43,7 +37,9 @@ const App = () => {
   const handleLogout = (event) => {
     event.preventDefault();
     window.localStorage.removeItem("user");
+    setMessage(`${user.username} logged out`);
     setUser(null);
+    setTimeout(() => setMessage(""), 5000); //after 5s clear error message
   };
 
   const handleAddBlog = async (event) => {
@@ -58,9 +54,11 @@ const App = () => {
         newBlog,
         blogService.prepareTokenForRequests(user.token)
       );
+      setMessage(`${blogTitle} added`);
       setBlogTitle("");
       setBlogUrl("");
       setBlogLikes("");
+      setTimeout(() => setMessage(""), 5000);
     } catch (exception) {
       console.log("some error while we tried to handleAddBlog", exception);
     }
@@ -75,19 +73,12 @@ const App = () => {
     if (loggedUserString) {
       setUser(JSON.parse(loggedUserString));
     }
-    /*
-    const tokenForRequestsString = window.localStorage.getItem(
-      "tokenForRequests"
-    );
-    if (tokenForRequestsString) {
-      setTokenForRequests(JSON.parse(tokenForRequestsString));
-    }
-    */
   }, []);
 
   if (user === null)
     return (
       <div>
+        <Notification message={message} />
         <h2>log in to to our awesome application</h2>
         <form onSubmit={handleLogin}>
           <div>

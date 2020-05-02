@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Blog from "./components/Blog";
+import Notification from "./components/Notification";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 
@@ -8,23 +9,34 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [message, setMessage] = useState("");
+  const [blogTitle, setBlogTitle] = useState("");
+  const [blogUrl, setBlogUrl] = useState("");
+  const [blogLikes, setBlogLikes] = useState("");
 
   const handleLogin = async (event) => {
     event.preventDefault(); //don't refresh page
     try {
       let user = await loginService.login({ username, password }); //not the same user as the state variable, still need to change that
       console.log(
-        "information we are going to put into user state variable:",
-        user
+        `information we are going to put into user state variable: ${user}\n`
       );
+
       window.localStorage.setItem("user", JSON.stringify(user));
+      /*
+      window.localStorage.setItem(
+        "tokenForRequests",
+        JSON.stringify(tokenForRequests)
+      );
+      */
       setUser(user);
       setUsername("");
       setPassword(""); //clean the form since we already logged in
+      setMessage("You are logged in my dear");
+      setTimeout(() => setMessage(""), 5000); //after 5s clear login message
     } catch (exception) {
-      setErrorMessage("Bad credentials youngster");
-      setTimeout(() => setErrorMessage(null), 5000); //after 5s clear error message
+      setMessage("Bad credentials youngster");
+      setTimeout(() => setMessage(""), 5000); //after 5s clear error message
     }
   };
 
@@ -32,6 +44,26 @@ const App = () => {
     event.preventDefault();
     window.localStorage.removeItem("user");
     setUser(null);
+  };
+
+  const handleAddBlog = async (event) => {
+    event.preventDefault();
+    const newBlog = {
+      title: blogTitle,
+      url: blogUrl,
+      likes: blogLikes,
+    };
+    try {
+      await blogService.addBlog(
+        newBlog,
+        blogService.prepareTokenForRequests(user.token)
+      );
+      setBlogTitle("");
+      setBlogUrl("");
+      setBlogLikes("");
+    } catch (exception) {
+      console.log("some error while we tried to handleAddBlog", exception);
+    }
   };
 
   useEffect(() => {
@@ -43,6 +75,14 @@ const App = () => {
     if (loggedUserString) {
       setUser(JSON.parse(loggedUserString));
     }
+    /*
+    const tokenForRequestsString = window.localStorage.getItem(
+      "tokenForRequests"
+    );
+    if (tokenForRequestsString) {
+      setTokenForRequests(JSON.parse(tokenForRequestsString));
+    }
+    */
   }, []);
 
   if (user === null)
@@ -74,10 +114,42 @@ const App = () => {
     return (
       <div>
         <h2>blogs</h2>
+        <Notification message={message} />
         <div>
           {user.name} is logged in.
           <form onSubmit={handleLogout}>
             <button type="submit">Logout</button>
+          </form>
+        </div>
+        <div>
+          <h2>create new</h2>
+
+          <form onSubmit={handleAddBlog}>
+            <div>
+              title:{" "}
+              <input
+                type="text"
+                value={blogTitle}
+                onChange={({ target }) => setBlogTitle(target.value)}
+              />
+            </div>
+            <div>
+              url:{" "}
+              <input
+                type="text"
+                value={blogUrl}
+                onChange={({ target }) => setBlogUrl(target.value)}
+              />
+            </div>
+            <div>
+              likes:{" "}
+              <input
+                type="text"
+                value={blogLikes}
+                onChange={({ target }) => setBlogLikes(target.value)}
+              />
+            </div>
+            <input type="submit" value="create blog" />
           </form>
         </div>
         <br />

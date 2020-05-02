@@ -17,8 +17,23 @@ blogRouter.get("/", async (request, response) => {
 });
 
 blogRouter.post("/", async (request, response) => {
-  const blog = new Blog(request.body);
-  const decodedToken = handleToken(request.token); //a middleware is defined in app.js that extracts the token from the request headers
+  const body = request.body;
+  console.log(
+    `we are inside blogRouter.post, the value of request.token is ${request.token}\nbody of request to add blog: ${body}\n`
+  );
+
+  const blog = new Blog({
+    title: body.title || "",
+    url: body.url || "",
+    likes: Number(body.likes) || 0,
+    //author is coming later on, we will get it from the logged in user
+  });
+  const decodedToken = await handleToken(request.token); //a middleware is defined in app.js that extracts the token from the request headers
+  console.log(
+    `we are inside blogRouter.post, the value of decodedToken is ${JSON.stringify(
+      decodedToken
+    )}\n`
+  );
   if (decodedToken.error) return response.status(401).json(decodedToken.error);
 
   const user = await User.findById(decodedToken.id);

@@ -4,8 +4,7 @@ const loginRouter = require("express").Router();
 const User = require("../models/user");
 
 loginRouter.post("/", async (req, res) => {
-  console.log("body of request received by loginRouter:", req.body);
-  console.log("headers of request received by loginRouter:", req.headers);
+  console.log(`body of request received by loginRouter: ${req.body}\n`);
   const body = req.body; //username and password
 
   const user = await User.findOne({ username: body.username });
@@ -13,6 +12,10 @@ loginRouter.post("/", async (req, res) => {
     user === null
       ? false
       : await bcrypt.compare(body.password, user.passwordHash);
+
+  console.log(
+    `value of user: ${user}\nvalue of passwordCorrect: ${passwordCorrect}\n`
+  );
 
   if (!(user && passwordCorrect))
     return res.status(401).json({ error: "invalid username or password" }); //401 is 'unauthorized'

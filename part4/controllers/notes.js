@@ -22,7 +22,6 @@ notesRouter.get("/:id", (request, response, next) => {
 });
 
 const getTokenFrom = (request) => {
-  console.log("the contents of the request are:", request);
   const authorization = request.get("authorization");
   console.log(
     "contents of authorization pulled with request.get('authorization'):",
@@ -37,13 +36,8 @@ const getTokenFrom = (request) => {
 notesRouter.post("/", async (request, response) => {
   const body = request.body;
   const token = getTokenFrom(request);
-  console.log("token:", token);
-
-  try {
-    const decodedToken = await jwt.verify(token, process.env.SECRET); //returns the object the token was based on
-  } catch (error) {
-    return response.status(401).json({ error: "your token isn't valid" });
-  }
+  console.log(`token: ${token}\n`);
+  const decodedToken = jwt.verify(token, process.env.SECRET);
 
   if (!token || !decodedToken.id) {
     return response.status(401).json({ error: "token missing or invalid" });
@@ -61,7 +55,7 @@ notesRouter.post("/", async (request, response) => {
   user.notes = user.notes.concat(savedNote._id);
   await user.save();
 
-  response.json(savedNote.toJSON());
+  response.status(201).json(savedNote.toJSON());
 });
 
 notesRouter.delete("/:id", (request, response, next) => {

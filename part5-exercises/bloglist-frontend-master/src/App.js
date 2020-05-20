@@ -19,7 +19,9 @@ const App = () => {
     try {
       let user = await loginService.login({ username, password }); //not the same user as the state variable, still need to change that
       console.log(
-        `information we are going to put into user state variable: ${user}\n`
+        `information we are going to put into user state variable: ${JSON.stringify(
+          user
+        )}\n`
       );
 
       window.localStorage.setItem("user", JSON.stringify(user));
@@ -29,7 +31,7 @@ const App = () => {
       setPassword(""); //clean the form since we already logged in
       setTimeout(() => setMessage(""), 5000); //after 5s clear login message
     } catch (exception) {
-      setMessage("Bad credentials youngster");
+      setMessage("Bad credentials youngster.");
       setTimeout(() => setMessage(""), 5000); //after 5s clear error message
     }
   };
@@ -145,7 +147,7 @@ const App = () => {
         </div>
         <br />
         {blogs.map((blog) => (
-          <Blog key={blog.id} blog={blog} />
+          <Blog key={Math.random()} blog={blog} />
         ))}
       </div>
     );

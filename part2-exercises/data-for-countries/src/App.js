@@ -72,7 +72,6 @@ const CountriesToShow = (props) => {
         </div>
       );
     else if (result.length > 1 && result.length < 10) {
-      //if (1,10) countries found
       return result.map((x) => (
         <div key={shortid.generate()}>
           {x.name}{" "}

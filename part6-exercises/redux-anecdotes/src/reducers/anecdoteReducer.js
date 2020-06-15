@@ -19,8 +19,16 @@ const asObject = (anecdote) => {
 
 const mySort = (array) => {
   const newArray = [...array];
-  newArray.sort((a, b) => b.votes - a.votes);
+  newArray.sort((a, b) => b.votes - a.votes); //sort by number of votes, descending order
   return newArray;
+};
+
+export const voteActionCreator = (id) => {
+  return { type: "vote", id };
+};
+
+export const newAnecdoteActionCreator = (content) => {
+  return { type: "new", content };
 };
 
 const initialState = anecdotesAtStart.map(asObject);

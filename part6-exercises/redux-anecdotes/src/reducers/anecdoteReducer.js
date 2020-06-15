@@ -17,6 +17,12 @@ const asObject = (anecdote) => {
   };
 };
 
+const mySort = (array) => {
+  const newArray = [...array];
+  newArray.sort((a, b) => b.votes - a.votes);
+  return newArray;
+};
+
 const initialState = anecdotesAtStart.map(asObject);
 
 const reducer = (state = initialState, action) => {
@@ -24,13 +30,15 @@ const reducer = (state = initialState, action) => {
   console.log("action", action);
   switch (action.type) {
     case "vote":
-      let anecdoteToUpdate = state.find(
+      const anecdoteToUpdate = state.find(
         (anecdote) => anecdote.id === action.id
       );
       anecdoteToUpdate.votes += 1;
       let newState = state.map((anecdote) =>
         anecdote.id !== action.id ? anecdote : anecdoteToUpdate
       );
+      newState = mySort(newState);
+
       return newState;
     case "new":
       let newAnecdote = asObject(action.content);

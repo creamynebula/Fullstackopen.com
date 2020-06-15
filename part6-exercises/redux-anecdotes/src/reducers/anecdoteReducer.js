@@ -34,14 +34,12 @@ const reducer = (state = initialState, action) => {
         (anecdote) => anecdote.id === action.id
       );
       anecdoteToUpdate.votes += 1;
-      let newState = state.map((anecdote) =>
+      const newState = state.map((anecdote) =>
         anecdote.id !== action.id ? anecdote : anecdoteToUpdate
       );
-      newState = mySort(newState);
-
-      return newState;
+      return mySort(newState);
     case "new":
-      let newAnecdote = asObject(action.content);
+      const newAnecdote = asObject(action.content);
       return state.concat(newAnecdote);
     default:
       return state;

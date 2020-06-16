@@ -1,9 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  voteActionCreator,
-  newAnecdoteActionCreator,
-} from "./reducers/anecdoteReducer";
+import { voteActionCreator } from "./reducers/anecdoteReducer";
+import AnecdoteForm from "./components/AnecdoteForm";
 
 const App = () => {
   const anecdotes = useSelector((state) => state); //data fetched from store
@@ -11,12 +9,6 @@ const App = () => {
 
   const vote = (id) => {
     dispatch(voteActionCreator(id));
-  };
-
-  const create = (event) => {
-    event.preventDefault();
-    const content = event.target.newAnecdote.value;
-    dispatch(newAnecdoteActionCreator(content));
   };
 
   return (
@@ -31,13 +23,7 @@ const App = () => {
           </div>
         </div>
       ))}
-      <h2>create new</h2>
-      <form onSubmit={create}>
-        <div>
-          <input name="newAnecdote" />
-        </div>
-        <button type="submit">create</button>
-      </form>
+      <AnecdoteForm />
     </div>
   );
 };

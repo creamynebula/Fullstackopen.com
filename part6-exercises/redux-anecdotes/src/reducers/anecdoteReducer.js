@@ -18,6 +18,7 @@ const asObject = (anecdote) => {
 };
 
 const mySort = (array) => {
+  //returns array sorted in descending order without changing input
   const newArray = [...array];
   newArray.sort((a, b) => b.votes - a.votes); //sort by number of votes, descending order
   return newArray;
@@ -34,8 +35,6 @@ export const newAnecdoteActionCreator = (content) => {
 const initialState = anecdotesAtStart.map(asObject);
 
 const reducer = (state = initialState, action) => {
-  console.log("state now: ", state);
-  console.log("action", action);
   switch (action.type) {
     case "vote":
       const anecdoteToUpdate = state.find(

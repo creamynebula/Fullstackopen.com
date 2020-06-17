@@ -1,14 +1,19 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { voteActionCreator } from "./reducers/anecdoteReducer";
+import {
+  setNotification,
+  removeNotification,
+} from "./reducers/notificationReducer";
 import AnecdoteForm from "./components/AnecdoteForm";
 
 const App = () => {
-  const anecdotes = useSelector((state) => state); //data fetched from store
+  const anecdotes = useSelector((state) => state.anecdotes); //data fetched from store
   const dispatch = useDispatch(); //now dispatch(action) updates store
 
   const vote = (id) => {
     dispatch(voteActionCreator(id));
+    //dispatch(setNotification);
   };
 
   return (

@@ -1,5 +1,5 @@
 export const setNotification = (content) => {
-  return { type: "set_notification", content };
+  return { type: "set_notification", content: `you voted '${content}'` };
 };
 
 export const removeNotification = () => {

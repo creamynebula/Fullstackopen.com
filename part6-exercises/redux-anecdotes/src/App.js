@@ -6,19 +6,25 @@ import {
   removeNotification,
 } from "./reducers/notificationReducer";
 import AnecdoteForm from "./components/AnecdoteForm";
+import Notification from "./components/Notification";
 
 const App = () => {
   const anecdotes = useSelector((state) => state.anecdotes); //data fetched from store
   const dispatch = useDispatch(); //now dispatch(action) updates store
 
   const vote = (id) => {
+    const votedAnecdote = anecdotes.find((anecdote) => anecdote.id === id);
     dispatch(voteActionCreator(id));
-    //dispatch(setNotification);
+    dispatch(setNotification(votedAnecdote.content));
+    setTimeout(() => {
+      dispatch(removeNotification());
+    }, 5000);
   };
 
   return (
     <div>
       <h2>Anecdotes</h2>
+      <Notification />
       {anecdotes.map((anecdote) => (
         <div key={anecdote.id}>
           <div>{anecdote.content}</div>

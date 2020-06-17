@@ -5,11 +5,24 @@ import {
   setNotification,
   removeNotification,
 } from "./reducers/notificationReducer";
+
 import AnecdoteForm from "./components/AnecdoteForm";
 import Notification from "./components/Notification";
+import Filter from "./components/Filter";
+
+const searchResult = (query, array) => {
+  //returns array that correspond to query
+  return array.filter((x) =>
+    x.name.toLowerCase().includes(query.toLowerCase())
+  );
+};
 
 const App = () => {
+  const filter = useSelector((state) => state.filter);
   const anecdotes = useSelector((state) => state.anecdotes); //data fetched from store
+  const filteredAnecdotes = anecdotes.filter((anecdote) =>
+    anecdote.content.toLowerCase().includes(filter)
+  );
   const dispatch = useDispatch(); //now dispatch(action) updates store
 
   const vote = (id) => {
@@ -24,8 +37,9 @@ const App = () => {
   return (
     <div>
       <h2>Anecdotes</h2>
+      <Filter />
       <Notification />
-      {anecdotes.map((anecdote) => (
+      {filteredAnecdotes.map((anecdote) => (
         <div key={anecdote.id}>
           <div>{anecdote.content}</div>
           <div>

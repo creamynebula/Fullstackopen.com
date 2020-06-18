@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+
 import { voteActionCreator } from "./reducers/anecdoteReducer";
 import {
   setNotification,
@@ -10,20 +11,24 @@ import AnecdoteForm from "./components/AnecdoteForm";
 import Notification from "./components/Notification";
 import Filter from "./components/Filter";
 
-const searchResult = (query, array) => {
-  //returns array that correspond to query
-  return array.filter((x) =>
-    x.name.toLowerCase().includes(query.toLowerCase())
-  );
-};
+import anecdotesService from "./services/anecdotes";
+import { initializeAnecdotes } from "./reducers/anecdoteReducer";
 
 const App = () => {
+  const dispatch = useDispatch(); //now dispatch(action) updates store
+  useEffect(() => {
+    anecdotesService
+      .getAll()
+      .then((anecdotes) => dispatch(initializeAnecdotes(anecdotes)));
+  }, [dispatch]);
+
   const filter = useSelector((state) => state.filter);
+  console.log("value of filter:", filter);
   const anecdotes = useSelector((state) => state.anecdotes); //data fetched from store
+  console.log("value of anecdotes:", anecdotes);
   const filteredAnecdotes = anecdotes.filter((anecdote) =>
     anecdote.content.toLowerCase().includes(filter)
   );
-  const dispatch = useDispatch(); //now dispatch(action) updates store
 
   const vote = (id) => {
     const votedAnecdote = anecdotes.find((anecdote) => anecdote.id === id);

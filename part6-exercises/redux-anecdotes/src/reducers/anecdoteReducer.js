@@ -1,3 +1,5 @@
+import anecdotesService from "../services/anecdotes";
+
 const mySort = (array) => {
   //returns array sorted in descending order without changing input
   const newArray = [...array];
@@ -13,11 +15,15 @@ export const newAnecdoteActionCreator = (content) => {
   return { type: "new", content };
 };
 
-export const initializeAnecdotes = (anecdotes) => {
-  return { type: "init", anecdotes };
+export const initializeAnecdotes = () => {
+  return async (dispatch) => {
+    const anecdotes = await anecdotesService.getAll();
+    dispatch({ type: "init", anecdotes });
+  };
 };
 
 const reducer = (state = [], action) => {
+  //action is what goes inside dispatch()
   switch (action.type) {
     case "vote":
       const anecdoteToUpdate = state.find(

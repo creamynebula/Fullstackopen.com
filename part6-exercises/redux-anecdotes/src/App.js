@@ -26,9 +26,11 @@ const App = () => {
   console.log("value of filter:", filter);
   const anecdotes = useSelector((state) => state.anecdotes); //data fetched from store
   console.log("value of anecdotes:", anecdotes);
-  const filteredAnecdotes = anecdotes.filter((anecdote) =>
-    anecdote.content.toLowerCase().includes(filter)
-  );
+  const filteredAnecdotes =
+    anecdotes ||
+    anecdotes.filter((anecdote) =>
+      anecdote.content.toLowerCase().includes(filter)
+    );
 
   const vote = (id) => {
     const votedAnecdote = anecdotes.find((anecdote) => anecdote.id === id);

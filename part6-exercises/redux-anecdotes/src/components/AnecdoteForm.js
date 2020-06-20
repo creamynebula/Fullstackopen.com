@@ -1,7 +1,6 @@
 import React from "react";
 import { newAnecdoteActionCreator } from "../reducers/anecdoteReducer";
 import { useDispatch } from "react-redux";
-import anecdotesService from "../services/anecdotes";
 
 const AnecdoteForm = () => {
   const dispatch = useDispatch();
@@ -9,9 +8,7 @@ const AnecdoteForm = () => {
     event.preventDefault();
     const content = event.target.newAnecdote.value;
     event.target.newAnecdote.value = "";
-    const newAnecdote = await anecdotesService.createNew(content);
-    console.log("value of newAnecdote:", newAnecdote);
-    dispatch(newAnecdoteActionCreator(newAnecdote));
+    dispatch(newAnecdoteActionCreator(content)); //thanks to redux-thunk this creates note on both back and frontend
   };
   return (
     <>

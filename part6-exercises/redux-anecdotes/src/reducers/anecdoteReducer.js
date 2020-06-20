@@ -12,12 +12,20 @@ export const voteActionCreator = (id) => {
 };
 
 export const newAnecdoteActionCreator = (content) => {
-  return { type: "new", content };
+  return async (dispatch) => {
+    const newAnecdote = await anecdotesService.createNew(content); //saved to backend
+    console.log(
+      "newAnecdoteActionCreator is going to dispatch this:",
+      newAnecdote
+    );
+    dispatch({ type: "new", newAnecdote });
+  }; //dispatch to store to update on frontend
 };
 
 export const initializeAnecdotes = () => {
   return async (dispatch) => {
     const anecdotes = await anecdotesService.getAll();
+    console.log("initializeAnecdotes is going to dispatch these:", anecdotes);
     dispatch({ type: "init", anecdotes });
   };
 };
@@ -35,8 +43,7 @@ const reducer = (state = [], action) => {
       );
       return mySort(newState);
     case "new":
-      //const newAnecdote = asObject(action.content);
-      return state.concat(action.content);
+      return state.concat(action.newAnecdote);
     case "init":
       return action.anecdotes;
     default:

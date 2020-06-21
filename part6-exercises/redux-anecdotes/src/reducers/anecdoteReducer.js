@@ -8,7 +8,11 @@ const mySort = (array) => {
 };
 
 export const voteActionCreator = (id) => {
-  return { type: "vote", id };
+  return async (dispatch) => {
+    const updatedAnecdote = await anecdotesService.updateVotes(id);
+    console.log("value of updatedAnecdote:", updatedAnecdote);
+    dispatch({ type: "vote", id });
+  };
 };
 
 export const newAnecdoteActionCreator = (content) => {

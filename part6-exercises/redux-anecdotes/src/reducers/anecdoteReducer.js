@@ -18,10 +18,6 @@ export const voteActionCreator = (id) => {
 export const newAnecdoteActionCreator = (content) => {
   return async (dispatch) => {
     const newAnecdote = await anecdotesService.createNew(content); //saved to backend
-    console.log(
-      "newAnecdoteActionCreator is going to dispatch this:",
-      newAnecdote
-    );
     dispatch({ type: "new", newAnecdote });
   }; //dispatch to store to update on frontend
 };
@@ -29,7 +25,7 @@ export const newAnecdoteActionCreator = (content) => {
 export const initializeAnecdotes = () => {
   return async (dispatch) => {
     const anecdotes = await anecdotesService.getAll();
-    console.log("initializeAnecdotes is going to dispatch these:", anecdotes);
+    //console.log("initializeAnecdotes is going to dispatch these:", anecdotes);
     dispatch({ type: "init", anecdotes });
   };
 };
